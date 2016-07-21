@@ -106,7 +106,7 @@ module FortyFacets
     end
 
     def filter(filter_name)
-      filter = @filters.find { |f| f.definition.path == [filter_name].flatten }
+      filter = @filters.find { |f| f.name == filter_name }
       raise "Unknown filter #{filter_name}" unless filter
       filter
     end

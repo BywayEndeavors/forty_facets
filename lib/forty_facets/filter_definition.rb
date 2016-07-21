@@ -14,7 +14,7 @@ module FortyFacets
     end
 
     def request_param
-      path.join('-')
+      options[:param_name] || path.join('-')
     end
 
     def qualified_column_name

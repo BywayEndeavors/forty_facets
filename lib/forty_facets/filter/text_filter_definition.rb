@@ -5,6 +5,7 @@ module FortyFacets
         return Proc.new { |base| base } if empty?
         like_value = expression_value(value)
         operator = definition.options[:ignore_case] ? 'ILIKE' : 'LIKE'
+        operator = "NOT #{operator}" if definition.options[:negative_match]
         Proc.new {  |base| base.joins(definition.joins).where("#{definition.qualified_column_name} #{operator} ?", like_value ) }
       end
 

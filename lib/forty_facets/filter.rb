@@ -7,7 +7,7 @@ module FortyFacets
     FacetValue = Struct.new(:entity, :count, :selected)
 
     def name
-      definition.options[:name] || definition.path.join(' ')
+      definition.options[:name] || definition.path
     end
 
     def empty?

@@ -55,7 +55,14 @@ module FortyFacets
       def build_scope
         return Proc.new { |base| base } if empty?
         Proc.new do |base|
-          result = base.joins(definition.joins).where(definition.qualified_column_name => value)
+          result = base.joins(definition.joins)
+
+          if definition.options[:negative_match]
+            result = result.where("#{definition.qualified_column_name} != ?", value)
+          else
+            result = result.where(definition.qualified_column_name => value)
+          end
+
           if definition.joins
             result = result.distinct
           end
@@ -98,7 +105,14 @@ module FortyFacets
       def build_scope
         return Proc.new { |base| base } if empty?
         Proc.new do |base|
-          result = base.joins(definition.joins).where(definition.qualified_column_name => values)
+          result = base.joins(definition.joins)
+
+          if definition.options[:negative_match]
+            result = result.where.not(definition.qualified_column_name => values)
+          else
+            result = result.where(definition.qualified_column_name => values)
+          end
+
           if definition.joins
             result = result.distinct
           end
